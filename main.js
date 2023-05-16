@@ -2,10 +2,31 @@
 const EMPTY_HEART = '♡'
 const FULL_HEART = '♥'
 
+
 // Your JavaScript code goes here!
+document.querySelector('#modal').classList.add('hidden');
 
-
-
+document.querySelectorAll('.like-glyph').forEach(heart => {
+  heart.addEventListener('click', () => {
+    if (heart.innerHTML === EMPTY_HEART) {
+      mimicServerCall()
+        .then(() => {
+          heart.innerHTML = FULL_HEART;
+          heart.classList.add('activated-heart');
+        })
+        .catch((error) => {
+          document.querySelector('.error-modal').classList.remove('hidden');
+          document.querySelector('.error-message').innerHTML = error;
+          setTimeout(() => {
+            document.querySelector('.error-modal').classList.add('hidden');
+          }, 3000);
+        });
+      } else {
+        heart.innerHTML = EMPTY_HEART;
+        heart.classList.remove('activated-heart');
+      }
+  })
+});
 
 //------------------------------------------------------------------------------
 // Don't change the code below: this function mocks the server response
